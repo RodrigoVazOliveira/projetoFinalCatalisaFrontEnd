@@ -2,11 +2,13 @@ import React from 'react';
 import { Form, Button, Container, Row, Col, InputGroup } from 'react-bootstrap';
 import {AiOutlineMail} from 'react-icons/ai';
 import { RiLockPasswordFill } from 'react-icons/ri';
+import UsuarioService from '../../service/usuario.service';
 
 Class FormularioUsuario extends React.Component{
                   constructor(props) {
                       super(props);
                         this.state = {nomeCompleto: '', email: '', senha: '', nivelDeAcesso: ''};
+                        this.service = new UsuarioService();
                                     this.handlerChange = this.handlerChange.bind(this);
                                     this.handlerSubmit = this.handlerSubmit.bind(this);
 }
@@ -22,7 +24,7 @@ handlerChange(event) {
     }
 
     handlerSubmit(event) {
-            alert(this.state.nomeCompleto + '' + this.state.email + ' ' + this.state.senha + '' + this.state.nivelDeAcesso);
+            this.service.autenticar(this.state.nomeCompleto + '' + this.state.email + ' ' + this.state.senha + '' + this.state.nivelDeAcesso);
             event.preventDefault();
         }
 
@@ -77,7 +79,7 @@ handlerChange(event) {
                         </Row>
 
                         <Row>
-                                 <Col md="2">Senha:</Col>
+                                 <Col md="2">Nivel De Acesso:</Col>
                                   <Col md="10">
                                             <InputGroup>
                                                     <InputGroup.Text>
