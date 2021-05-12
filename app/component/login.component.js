@@ -29,17 +29,20 @@ class FormularioLogin extends React.Component {
 
     render() {
         return (
-            <Container>
+            <Container className="mt-4">
             <Form onSubmit={this.handlerSubmit}>
+                <legend>Login</legend>
                 <Row>
-                    <Col>E-mail:</Col>
-                    <Col>
+                    <Col md="2">E-mail:</Col>
+                    <Col md="10">
                         <Form.Control type="email" onChange={this.handlerChange} value={this.state.email} name="email" id="email" placeholder="Informe seu e-mail..." required />
                     </Col>
                 </Row>
+
+                
                 <Row>
-                    <Col>Senha:</Col>
-                    <Col>
+                    <Col md="2">Senha:</Col>
+                    <Col md="10">
                         <Form.Control type="password" onChange={this.handlerChange} name="senha" id="senha" value={this.state.senha} placeholder="Informe sua senha...." />
                     </Col>
                 </Row>
