@@ -9,8 +9,6 @@ export default function Home() {
         <title>ZupPayments</title>
         <meta name="description" content="Zupayments FrontEnd" />
       </Head>
-
-      <body>
           <Container>
             <header>
               <Row>
@@ -25,7 +23,7 @@ export default function Home() {
               </Row>
             </header>
           </Container>
-      </body>
+
       <footer >
           <hr />
           <p className="text-center bold">Zupayments - vresão 0.1.0 beta - 2021</p>
