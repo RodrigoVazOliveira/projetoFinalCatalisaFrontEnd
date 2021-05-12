@@ -2,12 +2,15 @@ import React from 'react';
 import { Form, Button, Container, Row, Col, InputGroup } from 'react-bootstrap';
 import {AiOutlineMail} from 'react-icons/ai';
 import { RiLockPasswordFill } from 'react-icons/ri';
+import LoginService from '../../service/login.service';
 
 class FormularioLogin extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {email: '', senha: ''};
+
+        this.service = new LoginService();
 
         this.handlerChange = this.handlerChange.bind(this);
         this.handlerSubmit = this.handlerSubmit.bind(this);
@@ -24,7 +27,7 @@ class FormularioLogin extends React.Component {
     }
 
     handlerSubmit(event) {
-        alert(this.state.email + ' ' + this.state.senha);
+        this.service.autenticar(this.state.email, this.state.senha);
         event.preventDefault();
     }
 
