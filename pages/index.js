@@ -1,6 +1,6 @@
 import {Container, Row, Col } from 'react-bootstrap';
 import Head from 'next/head';
-import FormularioLogin from '../app/component/login.component';
+import FormularioLogin from '../app/component/login/login.component';
 
 export default function Home() {
   return (
@@ -27,7 +27,8 @@ export default function Home() {
           </Container>
       </body>
       <footer >
-        
+          <hr />
+          <p className="text-center bold">Zupayments - vresão 0.1.0 beta - 2021</p>
       </footer>
     </div>
   )
