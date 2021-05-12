@@ -1,5 +1,6 @@
 import axios from 'axios';
 import Login from '../models/login.dto';
+import Router from 'next/router';
 
 export default class LoginService {
 
@@ -10,14 +11,18 @@ export default class LoginService {
             headers: {
                 'Content-Type':'application/json',
                 'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Methods': 'POST, PUT, DELETE, OPTIONS, GET'
+                'Access-Control-Allow-Headers': '*'
             }
-        }).then(
-            res => {
-                console.log(res.headers);
+        }).then(function(response) {
+            if (response.headers.authorization) {
+                localStorage.setItem('JWT_TOKEN', response.headers.authorization);
+                Router.push('/home/home');
+            } else {
+                return false;
             }
-        ).catch(function(error) {
+        }).catch(function(error) {
             console.log(error);
+            return false;
         });
     }
 
