@@ -81,7 +81,7 @@ render(){
                                                 <AiOutlineMail />
                                                 </InputGroup.Text>
                                                 </InputGroup.Prepend>
-                                                <Form.Control type="fornecedor" onChange={this.handlerChange} value={this.state.email} name="fornecedor" id="email" placeholder="Informe qual o e-mail..." required />
+                                                <Form.Control type="email" onChange={this.handlerChange} value={this.state.email} name="email" id="email" placeholder="Informe qual o e-mail..." required />
                                                 </InputGroup>
                                         </Col>
                  </Row>
@@ -146,7 +146,7 @@ render(){
                                                 <AiOutlineMail />
                                                 </InputGroup.Text>
                                                 </InputGroup.Prepend>
-                                                <Form.Control type="cidade" onChange={this.handlerChange} value={this.state.cep} name="cidade" id="cidade" placeholder="Informe a cidade..." required />
+                                                <Form.Control type="cidade" onChange={this.handlerChange} value={this.state.cidade} name="cidade" id="cidade" placeholder="Informe a cidade..." required />
                                                 </InputGroup>
                                         </Col>
                  </Row>
