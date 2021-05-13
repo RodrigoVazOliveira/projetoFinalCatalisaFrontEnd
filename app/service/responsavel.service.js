@@ -2,13 +2,14 @@ import axios from 'axios';
 
 export default class ResponsavelService {
     cadastrarNovoResponsavel(responasvel) {
-        axios.post('http://localhost:8080/usuarios/', JSON.stringify(responasvel))
-        .then(response => {
-            if (response.status == '201') {
-                return response.data;
+        const tokenLogin = localStorage.getItem('JWT_TOKEN');
+        return axios.post('http://localhost:8080/responsaveis/', JSON.stringify(responasvel), {
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Headers': '*',
+                'Authorization': tokenLogin
             }
-        }).catch(error => {
-
         });
     }
 };

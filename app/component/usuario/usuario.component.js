@@ -49,7 +49,7 @@ export default class FormularioUsuario extends React.Component {
     }
 
     handleCloseModal(event) {
-        this.setState({showModal: false});
+        this.setState({showModalSucesso: false});
     }
 
     handleCloseModalError(event) {
@@ -150,7 +150,7 @@ export default class FormularioUsuario extends React.Component {
             </Container>
             <Footer />
             <div>
-                <Modal id="modalSucesso" name="modalScuesso" show={this.state.showModalSucesso} onHide={this.state.modalHide}>
+                <Modal id="modalSucesso" name="modalScuesso" show={this.state.showModalSucesso}>
                     <Modal.Header closeButton>
                     <Modal.Title>Cadastro de Usuário</Modal.Title>
                     </Modal.Header>
@@ -165,7 +165,7 @@ export default class FormularioUsuario extends React.Component {
                 </Modal>
             </div>
             <div>
-                <Modal id="modalError" name="modalError" show={this.state.showModalError} onHide={this.state.modalHide}>
+                <Modal id="modalError" name="modalError" show={this.state.showModalError}>
                     <Modal.Header closeButton>
                     <Modal.Title>Cadastro de Usuário</Modal.Title>
                     </Modal.Header>
@@ -179,7 +179,7 @@ export default class FormularioUsuario extends React.Component {
                     </Modal.Footer>
                 </Modal>
             </div>
-            </div>
+                </div>
         );
     }
 }
