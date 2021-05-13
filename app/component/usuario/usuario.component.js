@@ -1,5 +1,5 @@
-import React from 'react';
-import { Form, Button,  Container, Row, Col, InputGroup, Nav } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Form, Button,  Container, Row, Col, InputGroup, Nav, Modal } from 'react-bootstrap';
 import UsuarioService from '../../service/usuario.service';
 import Usuario from '../../models/usuario.dto';
 import { AiOutlineMail } from 'react-icons/ai';
@@ -8,12 +8,18 @@ import Footer from '../footer';
 
 export default class FormularioUsuario extends React.Component {
 
+    
     constructor(props) {
         super(props);
-        this.state = {nomeCompleto: '', email: '', senha: '', nivelDeAcesso: ''};
+
+        this.state = {nomeCompleto: '', email: '', senha: '', nivelDeAcesso: '', modalHide: false,showModalSucesso: false, showModalError: false};
+        
         this.service = new UsuarioService();
+
         this.handlerChange = this.handlerChange.bind(this);
         this.handlerSubmit = this.handlerSubmit.bind(this);
+        this.handleCloseModal = this.handleCloseModal.bind(this);
+        this.handleCloseModalError = this.handleCloseModalError.bind(this);
     }
 
     handlerChange(event) {
@@ -28,12 +34,26 @@ export default class FormularioUsuario extends React.Component {
 
     handlerSubmit(event) {
         let usuario = new Usuario(this.state.nomeCompleto, this.state.email, this.state.senha, this.state.nivelDeAcesso);
-        this.service.cadastrarNovoUsuario(usuario);
+        const resposta = this.service.cadastrarNovoUsuario(usuario);
         event.preventDefault();
+        resposta.then(response => {
+            if (response.status == 201) {
+                this.setState({showModalSucesso: true});
+            }
+        }).catch(error => {
+            if (error.response.status == 400) {
+                this.setState({showModalError: true});
+            }
+        });
+   
     }
 
-    voltar() {
-        
+    handleCloseModal(event) {
+        this.setState({showModal: false});
+    }
+
+    handleCloseModalError(event) {
+        this.setState({showModalError: false});
     }
 
     render() {
@@ -98,9 +118,9 @@ export default class FormularioUsuario extends React.Component {
                         <Form.Control 
                         as="select" name="nivelDeAcesso" onChange={this.handlerChange} value={this.state.nivelDeAcesso} id="nivelDeAcesso">
                             <option value="">Escolha ....</option>
-                            <option value="">Master</option>
-                            <option value="">Financeiro</option>
-                            <option value="">Compras</option>
+                            <option value="PERFIL_MASTER">Master</option>
+                            <option value="PERFIL_FINANCEIRO">Financeiro</option>
+                            <option value="PERFIL_COMPRAS">Compras</option>
                         </Form.Control>
                     </Col>
 
@@ -129,6 +149,36 @@ export default class FormularioUsuario extends React.Component {
                 </Row>
             </Container>
             <Footer />
+            <div>
+                <Modal id="modalSucesso" name="modalScuesso" show={this.state.showModalSucesso} onHide={this.state.modalHide}>
+                    <Modal.Header closeButton>
+                    <Modal.Title>Cadastro de Usuário</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        Cadastro realizado com sucesso!
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={this.handleCloseModal}>
+                            Fechar
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+            </div>
+            <div>
+                <Modal id="modalError" name="modalError" show={this.state.showModalError} onHide={this.state.modalHide}>
+                    <Modal.Header closeButton>
+                    <Modal.Title>Cadastro de Usuário</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        Existem erros de dados, favor verificar!
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={this.handleCloseModalError}>
+                            Fechar
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+            </div>
             </div>
         );
     }
