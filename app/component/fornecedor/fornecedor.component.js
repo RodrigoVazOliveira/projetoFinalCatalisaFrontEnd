@@ -249,6 +249,36 @@ render(){
                     </Modal.Footer>
                 </Modal>
             </div>
+            <div>
+                <Modal id="modalError" name="modalError" show={this.state.showModalError}>
+                    <Modal.Header closeButton>
+                    <Modal.Title>Cadastro de fornecedor</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        Existem erros de dados, favor verificar!
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={this.handleCloseModalError}>
+                            Fechar
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+            </div>
+            <div>
+                <Modal id="modalAccessoNegado" name="modalAccessoNegado" show={this.state.showModalAcesso}>
+                    <Modal.Header closeButton>
+                    <Modal.Title>Cadastro de fornecedor</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        Usuário não tem permissão para cadastrar um fornecedor.
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={this.handleCloseModalAcesso}>
+                            Fechar
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+            </div>   
                
         </Container>
                                             );
