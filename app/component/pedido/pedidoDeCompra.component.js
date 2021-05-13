@@ -1,20 +1,34 @@
 import React from 'react';
-import { Form, Button, Container, Row, Col, InputGroup, Nav } from 'react-bootstrap';
+import { Form, Button, Container, Row, Col, InputGroup, Nav, Modal } from 'react-bootstrap';
 import {AiOutlineMail} from 'react-icons/ai';
-import { RiLockPasswordFill } from 'react-icons/ri';
 import { MdDateRange, MdAttachMoney } from 'react-icons/md';
 import Header from '../header';
 import Footer from '../footer';
 import PedidoDeCompraService from '../../service/pedido.service';
+import PedidoDeCompraDTO from '../../models/pedidoDeCompra.dto';
 
 export default class FormularioPedido extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {dataDeVencimento: '', saldo: '', dataDePagamento: '', emailResponsavel: '', dataLimiteEnvio: '', formaDePagamento: '', cnpjOuCpf: ''};
+        this.state = {
+            dataDeVencimento: '', 
+            saldo: '', 
+            dataDePagamento: '', 
+            emailResponsavel: '', 
+            dataLimiteEnvio: '', 
+            formaDePagamento: '', 
+            cnpjOuCpf: '', 
+            showModalSucesso: false, 
+            showModalError: false,
+            showModalAcesso: false
+        };
         this.service = new PedidoDeCompraService();
         this.handlerChange = this.handlerChange.bind(this);
         this.handlerSubmit = this.handlerSubmit.bind(this);
+        this.handleCloseModal = this.handleCloseModal.bind(this);
+        this.handleCloseModalError = this.handleCloseModalError.bind(this);
+        this.handlerCloseModalAcesso = this.handlerCloseModalAcesso.bind(this);
     }
 
     handlerChange(event) {
@@ -28,9 +42,53 @@ export default class FormularioPedido extends React.Component {
     }
 
     handlerSubmit(event) {
-        this.service.autenticar(this.state.dataDeVencimento + '' + this.state.saldo + ' ' + this.state.dataDePagamento + '' + this.state.emailResponsavel + '' + this.state.dataLimiteEnvio
-            + '' + this.state.formaDePagamento + '' + this.state.cnpjOuCpf);
+        const pedidoDeCompra = new PedidoDeCompraDTO(
+            this.state.dataDeVencimento,
+            this.state.saldo,
+            this.state.dataDePagamento,
+            this.state.emailResponsavel,
+            this.state.dataLimiteEnvio,
+            this.state.formaDePagamento,
+            this.state.cnpjOuCpf
+        );
+
+        const resposta = this.service.cadastrar(pedidoDeCompra);
+        resposta.then((response) => {
+            if (response.status == 201) {
+                this.setState({showModalSucesso: true});
+            }            
+        }).catch((error) => {
+            if (error.response.status == 400) {
+                this.setState({showModalError: true});
+            } else if (error.response.status == 403) {
+                this.setState({showModalAcesso: true});
+            }
+        });
         event.preventDefault();
+    }
+
+    handleCloseModal(event) {
+        this.setState({
+            dataDeVencimento: '', 
+            saldo: '', 
+            dataDePagamento: '', 
+            emailResponsavel: '', 
+            dataLimiteEnvio: '', 
+            formaDePagamento: '', 
+            cnpjOuCpf: '', 
+            showModalSucesso: false, 
+            showModalError: false,
+            showModalAcesso: false
+        });
+        
+    }
+
+    handleCloseModalError(event) {
+        this.setState({showModalError: false});
+    }
+
+    handlerCloseModalAcesso() {
+        this.setState({showModalAcesso: false});
     }
 
     render() {
@@ -208,7 +266,52 @@ export default class FormularioPedido extends React.Component {
                         </Nav.Link>
                     </Col>
                 </Row>
-            <Footer />    
+            <Footer /> 
+            <div>
+                <Modal id="modalSucesso" name="modalScuesso" show={this.state.showModalSucesso}>
+                    <Modal.Header closeButton>
+                    <Modal.Title>Cadastro de pedido de compra</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        Cadastro realizado com sucesso!
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={this.handleCloseModal}>
+                            Fechar
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+            </div>
+            <div>
+                <Modal id="modalError" name="modalError" show={this.state.showModalError}>
+                    <Modal.Header closeButton>
+                    <Modal.Title>Cadastro de pedido de compra</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        Existem erros de dados, favor verificar!
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={this.handleCloseModalError}>
+                            Fechar
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+            </div>
+            <div>
+                <Modal id="modalAccessoNegado" name="modalAccessoNegado" show={this.state.showModalAcesso}>
+                    <Modal.Header closeButton>
+                    <Modal.Title>Cadastro de pedido de compra</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        Usuário não tem permissão para cadastrar um pedido de compra.
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={this.handleCloseModalAcesso}>
+                            Fechar
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+            </div>   
             </Container>
         );
     }
