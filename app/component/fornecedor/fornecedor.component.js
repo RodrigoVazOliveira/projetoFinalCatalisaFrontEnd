@@ -210,6 +210,7 @@ render(){
                 </Row>
                 </fieldset>
              </Form>
+
                 <Row>
                     <Col>
                         <Nav.Link 
@@ -218,6 +219,17 @@ render(){
                         href="/home/home"
                         >
                             Voltar
+                        </Nav.Link>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <Nav.Link 
+                        as="a"
+                        className="btn btn-lg bg-white text-black " 
+                        href="/fornecedor/visualizar"
+                        >
+                            Visualizar fornecedores
                         </Nav.Link>
                     </Col>
                 </Row>
