@@ -1,11 +1,12 @@
 import React from 'react';
 import Header from '../header';
 import Footer from '../footer';
-import {Container} from 'react-bootstrap';
-import ResponsavelDTO from '../../models/responsavel.dto';
-import ResponsavelService from '../../service/responsavel.service';
+import {Container, Form, Row, Col, InputGroup, Button } from 'react-bootstrap';
+import { AiOutlineMail } from 'react-icons/ai';
+import  ResponsavelDTO  from '../../models/responsavel.dto';
+import  ResponsavelService  from '../../service/responsavel.service';
 
-export default class FormularioResponsave extends React.Component {
+export default class FormularioResponsavel extends React.Component {
 
     constructor(props) {
         super(props);

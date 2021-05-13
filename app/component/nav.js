@@ -6,7 +6,7 @@ export default function Menu() {
             <header className="mt-4">
                     <Nav fill variant="tabs">
                         <Nav.Item>
-                            <Nav.Link href="/responsaveis/responsavel" accesskey="r"> <kbd>ALT + r</kbd> Responsáveis</Nav.Link>
+                            <Nav.Link href="/responsavel/cadastrar" accesskey="r"> <kbd>ALT + r</kbd> Responsáveis</Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
                             <Nav.Link href="/fornecedores/fornecedor" accesskey="s"><kbd>ALT + s</kbd> Fornecedores</Nav.Link>
