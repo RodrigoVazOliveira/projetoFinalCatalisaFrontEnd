@@ -198,11 +198,30 @@ render(){
                  
                  <Row>
                          <Col>
-                            <Button className="mt-2" variant="primary" name="btnAutenticar" id="btnAutenticar" size="lg" block type="submit">Enviar</Button>
+                            <Button 
+                             className="mt-2"
+                             variant="primary"
+                             name="btnAutenticar" id="btnAutenticar" 
+                             size="lg" 
+                             block
+                             type="submit"
+                             tabIndex="3">Entrar</Button>
                         </Col>
                 </Row>
                 </fieldset>
              </Form>
+                <Row>
+                    <Col>
+                        <Nav.Link 
+                        as="a"
+                        className="btn btn-lg btn-secondary " 
+                        href="/home/home"
+                        >
+                            Voltar
+                        </Nav.Link>
+                    </Col>
+                </Row>
+               
         </Container>
                                             );
                                         }
