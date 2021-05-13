@@ -1,8 +1,9 @@
 import React from 'react';
-import { Form, Button, Container, Row, Col, InputGroup } from 'react-bootstrap';
+import { Form, Button, Container, Row, Col, InputGroup, Nav, Modal } from 'react-bootstrap';
 import {AiOutlineMail} from 'react-icons/ai';
-import { RiLockPasswordFill } from 'react-icons/ri';
+import { MdDateRange, MdAttachMoney } from 'react-icons/md';
 import FornecedorService from '../../service/fornecedor.service';
+import Footer from '../footer';
 
 class FormularioFornecedor extends React.Component{
     constructor(props) {
@@ -213,7 +214,7 @@ render(){
 
                 <Row>
                     <Col>
-                        <Nav.Link 
+                        <Nav.Link
                         as="a"
                         className="btn btn-lg btn-secondary " 
                         href="/home/home"
@@ -222,6 +223,7 @@ render(){
                         </Nav.Link>
                     </Col>
                 </Row>
+                
                 <Row>
                     <Col>
                         <Nav.Link 
@@ -233,6 +235,7 @@ render(){
                         </Nav.Link>
                     </Col>
                 </Row>
+                <Footer/> 
                 <div>
                 <Modal id="modalSucesso" name="modalScuesso" show={this.state.showModalSucesso}>
                     <Modal.Header closeButton>
