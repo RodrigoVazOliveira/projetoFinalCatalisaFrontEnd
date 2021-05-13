@@ -1,35 +1,35 @@
-import React from 'react';
+import React from "react";
 import { Form, Button, Container, Row, Col, InputGroup, Nav, Modal } from 'react-bootstrap';
 import {AiOutlineMail} from 'react-icons/ai';
 import { MdDateRange, MdAttachMoney } from 'react-icons/md';
 import Header from '../header';
 import Footer from '../footer';
-import PedidoDeCompraService from '../../service/pedido.service';
-import PedidoDeCompraDTO from '../../models/pedidoDeCompra.dto';
+import NotaFiscalService from '../../service/nota.service';
+import CadastrarNotaFiscalDTO from '../../models/nota.dto';
 
-export default class FormularioPedido extends React.Component {
-
+export default class FormularioNotaFiscal extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            dataDeVencimento: '', 
-            saldo: '', 
-            dataDePagamento: '', 
-            emailResponsavel: '', 
-            dataLimiteEnvio: '', 
-            formaDePagamento: '', 
-            cnpjOuCpf: '', 
+            numeroDaNota: '',
+            cnpjOuCpfFornecedor: '',
+            valorAPagar: '',
+            dataDeEmissao: '',
+            pedidoDeCompras: '',
+            dataDeEnvio: '',
+            emailDoResponsavel: '',
             showModalSucesso: false, 
             showModalError: false,
-            showModalAcesso: false,
-            numeroDePedido: ''
+            showModalAcesso: false
         };
-        this.service = new PedidoDeCompraService();
+
+        this.service = new NotaFiscalService();
         this.handlerChange = this.handlerChange.bind(this);
         this.handlerSubmit = this.handlerSubmit.bind(this);
         this.handleCloseModal = this.handleCloseModal.bind(this);
         this.handleCloseModalError = this.handleCloseModalError.bind(this);
         this.handlerCloseModalAcesso = this.handlerCloseModalAcesso.bind(this);
+
     }
 
     handlerChange(event) {
@@ -41,47 +41,22 @@ export default class FormularioPedido extends React.Component {
             [name]: value
         });
     }
-
-    handlerSubmit(event) {
-        const pedidoDeCompra = new PedidoDeCompraDTO(
-            this.state.dataDeVencimento,
-            this.state.saldo,
-            this.state.dataDePagamento,
-            this.state.emailResponsavel,
-            this.state.dataLimiteEnvio,
-            this.state.formaDePagamento,
-            this.state.cnpjOuCpf
-        );
-
-        const resposta = this.service.cadastrar(pedidoDeCompra);
-        resposta.then((response) => {
-            if (response.status == 201) {
-                this.setState({showModalSucesso: true, numeroDePedido: response.data.numeroDePedido});
-            }            
-        }).catch((error) => {
-            if (error.response.status == 400) {
-                this.setState({showModalError: true});
-            } else if (error.response.status == 403) {
-                this.setState({showModalAcesso: true});
-            }
-        });
-        event.preventDefault();
-    }
-
+    
     handleCloseModal(event) {
         this.setState({
-            dataDeVencimento: '', 
-            saldo: '', 
-            dataDePagamento: '', 
-            emailResponsavel: '', 
-            dataLimiteEnvio: '', 
-            formaDePagamento: '', 
-            cnpjOuCpf: '', 
+            numeroDaNota: '',
+            cnpjOuCpfFornecedor: '',
+            valorAPagar: '',
+            dataDeEmissao: '',
+            pedidoDeCompras: '',
+            dataDeEnvio: '',
+            emailDoResponsavel: '',
             showModalSucesso: false, 
             showModalError: false,
-            showModalAcesso: false
+            showModalAcesso: false,
+            mensagemDeErro: '',
+            idNota: ''
         });
-        
     }
 
     handleCloseModalError(event) {
@@ -92,25 +67,47 @@ export default class FormularioPedido extends React.Component {
         this.setState({showModalAcesso: false});
     }
 
+    handlerSubmit(event) {
+        event.preventDefault();
+        let notaFiscal = new CadastrarNotaFiscalDTO(
+            this.state.numeroDaNota,
+            this.state.cnpjOuCpfFornecedor,
+            this.state.valorAPagar,
+            this.state.dataDeEmissao,
+            this.state.pedidoDeCompras,
+            this.state.dataDeEmissao,
+            this.state.emailDoResponsavel
+        );
+
+        let resposta = this.service.cadastrarNovaNotaFiscal(notaFiscal);
+
+        resposta.then((response) => {
+            if (response.status == 201) {
+                this.setState({showModalSucesso: true, idNota: response.data.id});
+            }
+        }).catch((error) => {
+            if (error.response.status == 403) {
+                this.setState({showModalAcesso: true});
+            } else if (error.response.status == 400) {
+                this.setState({showModalError: true, mensagemDeErro: error.response.data.mensagem});
+            }
+        });
+    }
+
     render() {
         return (
             <Container>
-                <Header nomePagina="Cadastro de pedido de compra" />
+                <Header nomePagina="Cadastro de nota fiscal" />
                 <Form onSubmit={this.handlerSubmit} className="mt-4">
                 <Row>
-                    <Col md="2">Data de vencimento:</Col>
+                    <Col md="2">Número de nota:</Col>
                     <Col md="10">
                         <InputGroup>
-                            <InputGroup.Prepend>
-                                <InputGroup.Text>
-                                    <MdDateRange />
-                                </InputGroup.Text>
-                            </InputGroup.Prepend>
                             <Form.Control 
-                             type="date" 
+                             type="number" 
                              onChange={this.handlerChange} 
-                             value={this.state.dataDeVencimento} 
-                             name="dataDeVencimento" id="dataDeVencimento" 
+                             value={this.state.numeroDaNota} 
+                             name="numeroDaNota" id="numeroDaNota" 
                              required
                              size="lg"
                              tabIndex="1" />
@@ -118,19 +115,14 @@ export default class FormularioPedido extends React.Component {
                     </Col>
                 </Row>
                 <Row>
-                    <Col md="2">Data de pagamento:</Col>
+                    <Col md="2">CNPJ/CPF fornecedor:</Col>
                     <Col md="10">
                         <InputGroup>
-                            <InputGroup.Prepend>
-                                <InputGroup.Text>
-                                    <MdDateRange />
-                                </InputGroup.Text>
-                            </InputGroup.Prepend>
                             <Form.Control 
-                             type="date" 
+                             type="text" 
                              onChange={this.handlerChange} 
-                             value={this.state.dataDePagamento} 
-                             name="dataDePagamento" id="dataDePagamento" 
+                             value={this.state.cnpjOuCpfFornecedor} 
+                             name="cnpjOuCpfFornecedor" id="cnpjOuCpfFornecedor" 
                              required
                              size="lg"
                              tabIndex="2" />
@@ -139,7 +131,7 @@ export default class FormularioPedido extends React.Component {
                 </Row>
                 
                 <Row>
-                    <Col md="2">Saldo:</Col>
+                    <Col md="2">Valor a pagar:</Col>
                     <Col md="10">
 
                         <InputGroup>
@@ -151,11 +143,66 @@ export default class FormularioPedido extends React.Component {
                             <Form.Control 
                             type="number" 
                             onChange={this.handlerChange} 
-                            name="saldo" id="saldo" 
-                            value={this.state.saldo} 
+                            name="valorAPagar" id="valorAPagar" 
+                            value={this.state.valorAPagar} 
                             required
                             size="lg"
                             tabIndex="3" />
+                        </InputGroup>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col md="2">Data de emissão:</Col>
+                    <Col md="10">
+                        <InputGroup>
+                            <InputGroup.Prepend>
+                                <InputGroup.Text>
+                                <MdDateRange />
+                                </InputGroup.Text>
+                            </InputGroup.Prepend>
+                            <Form.Control 
+                            type="date" 
+                            onChange={this.handlerChange} 
+                            name="dataDeEmissao" id="dataDeEmissao" 
+                            value={this.state.dataDeEmissao} 
+                            required
+                            size="lg"
+                            tabIndex="4" />
+                        </InputGroup>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col md="2">Data de envio:</Col>
+                    <Col md="10">
+                        <InputGroup>
+                            <InputGroup.Prepend>
+                                <InputGroup.Text>
+                                    <MdDateRange />
+                                </InputGroup.Text>
+                            </InputGroup.Prepend>
+                            <Form.Control 
+                            type="date" 
+                            onChange={this.handlerChange} 
+                            name="dataDeEnvio" id="dataDeEnvio" 
+                            value={this.state.dataDeEnvio} 
+                            required
+                            size="lg"
+                            tabIndex="5" />
+                        </InputGroup>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col md="2">Pedido de compra:</Col>
+                    <Col md="10">
+                        <InputGroup>
+                            <Form.Control 
+                            type="text" 
+                            onChange={this.handlerChange} 
+                            name="pedidoDeCompras" id="pedidoDeCompras" 
+                            value={this.state.pedidoDeCompras}
+                            required
+                            size="lg"
+                            tabIndex="6" />
                         </InputGroup>
                     </Col>
                 </Row>
@@ -171,66 +218,15 @@ export default class FormularioPedido extends React.Component {
                             <Form.Control 
                             type="email" 
                             onChange={this.handlerChange} 
-                            name="emailResponsavel" id="emailResponsavel" 
-                            value={this.state.emailResponsavel} 
-                            required
-                            size="lg"
-                            tabIndex="4" />
-                        </InputGroup>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col md="2">Data limite de envio:</Col>
-                    <Col md="10">
-                        <InputGroup>
-                            <InputGroup.Prepend>
-                                <InputGroup.Text>
-                                    <MdDateRange />
-                                </InputGroup.Text>
-                            </InputGroup.Prepend>
-                            <Form.Control 
-                            type="date" 
-                            onChange={this.handlerChange} 
-                            name="dataLimiteEnvio" id="dataLimiteEnvio" 
-                            value={this.state.dataLimiteEnvio} 
-                            required
-                            size="lg"
-                            tabIndex="5" />
-                        </InputGroup>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col md="2">CNPJ/CPF:</Col>
-                    <Col md="10">
-                        <InputGroup>
-                            <Form.Control 
-                            type="text" 
-                            onChange={this.handlerChange} 
-                            name="cnpjOuCpf" id="cnpjOuCpf" 
-                            value={this.state.cnpjOuCpf} 
+                            name="emailDoResponsavel" id="emailDoResponsavel" 
+                            value={this.state.emailDoResponsavel}
                             required
                             size="lg"
                             tabIndex="6" />
                         </InputGroup>
                     </Col>
                 </Row>
-                <Row>
-                    <Col md="2">
-                        <Form.Label>
-                            Forma de pagamento:
-                        </Form.Label>
-                    </Col>
-                    <Col md="10">
-                        <Form.Control 
-                        as="select" tabIndex="7" name="formaDePagamento" onChange={this.handlerChange} value={this.state.formaDePagamento} id="formaDePagamento">
-                            <option value="">Escolha ....</option>
-                            <option value="BOLETO">Boleto</option>
-                            <option value="CARTAO">Cartão</option>
-                            <option value="TED_DOC">TED/DOC</option>
-                        </Form.Control>
-                    </Col>
-
-                </Row>
+                
                 <Row>
                     <Col>
                         <Button 
@@ -256,26 +252,15 @@ export default class FormularioPedido extends React.Component {
                         </Nav.Link>
                     </Col>
                 </Row>
-                <Row>
-                    <Col>
-                        <Nav.Link 
-                        as="a"
-                        className="btn btn-lg bg-white text-black " 
-                        href="/pedido/visualizar"
-                        >
-                            Visualizar pedidos
-                        </Nav.Link>
-                    </Col>
-                </Row>
             <Footer /> 
             <div>
                 <Modal id="modalSucesso" name="modalScuesso" show={this.state.showModalSucesso}>
                     <Modal.Header closeButton>
-                    <Modal.Title>Cadastro de pedido de compra</Modal.Title>
+                    <Modal.Title>Cadastro de nota fiscal</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <p>Cadastro realizado com sucesso!</p>
-                        <p>O número do pedido: {this.state.numeroDePedido}</p>
+                        <p>O id da nota é:  {this.state.idNota} </p>
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={this.handleCloseModal}>
@@ -287,10 +272,11 @@ export default class FormularioPedido extends React.Component {
             <div>
                 <Modal id="modalError" name="modalError" show={this.state.showModalError}>
                     <Modal.Header closeButton>
-                    <Modal.Title>Cadastro de pedido de compra</Modal.Title>
+                    <Modal.Title>Cadastro de nota fiscal</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        Existem erros de dados, favor verificar!
+                        <p>Existem erros de dados, favor verificar!</p>
+                        <p>{this.state.mensagemDeErro}</p>
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={this.handleCloseModalError}>
@@ -302,7 +288,7 @@ export default class FormularioPedido extends React.Component {
             <div>
                 <Modal id="modalAccessoNegado" name="modalAccessoNegado" show={this.state.showModalAcesso}>
                     <Modal.Header closeButton>
-                    <Modal.Title>Cadastro de pedido de compra</Modal.Title>
+                    <Modal.Title>Cadastro de nota fiscal</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         Usuário não tem permissão para cadastrar um pedido de compra.
