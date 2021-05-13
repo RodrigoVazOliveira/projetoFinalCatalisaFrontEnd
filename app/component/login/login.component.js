@@ -1,8 +1,10 @@
 import React from 'react';
-import { Form, Button, Container, Row, Col, InputGroup } from 'react-bootstrap';
+import { Form, Button, Container, Row, Col, InputGroup, Nav } from 'react-bootstrap';
 import {AiOutlineMail} from 'react-icons/ai';
 import { RiLockPasswordFill } from 'react-icons/ri';
 import LoginService from '../../service/login.service';
+import Header from '../header';
+import Footer from '../footer';
 
 class FormularioLogin extends React.Component {
 
@@ -34,6 +36,8 @@ class FormularioLogin extends React.Component {
 
     render() {
         return (
+            <div>
+                <Header nomePagina="Autenticação" />
             <Container className="mt-4">
             <Form onSubmit={this.handlerSubmit}>
                 <fieldset className="fieldset">
@@ -47,7 +51,15 @@ class FormularioLogin extends React.Component {
                                     <AiOutlineMail />
                                 </InputGroup.Text>
                             </InputGroup.Prepend>
-                            <Form.Control type="email" onChange={this.handlerChange} value={this.state.email} name="email" id="email" placeholder="Informe seu e-mail..." required />
+                            <Form.Control 
+                             type="email" 
+                             onChange={this.handlerChange} 
+                             value={this.state.email} 
+                             name="email" id="email" 
+                             placeholder="Informe seu e-mail..." 
+                             required
+                             size="lg"
+                             tabIndex="1" />
                         </InputGroup>
                     </Col>
                 </Row>
@@ -63,7 +75,15 @@ class FormularioLogin extends React.Component {
                                     <RiLockPasswordFill />
                                 </InputGroup.Text>
                             </InputGroup.Prepend>
-                            <Form.Control type="password" onChange={this.handlerChange} name="senha" id="senha" value={this.state.senha} placeholder="Informe sua senha...." />
+                            <Form.Control 
+                            type="password" 
+                            onChange={this.handlerChange} 
+                            name="senha" id="senha" 
+                            value={this.state.senha} 
+                            placeholder="Informe sua senha...." 
+                            required
+                            size="lg"
+                            tabIndex="2" />
                         </InputGroup>
                         
                     </Col>
@@ -71,11 +91,33 @@ class FormularioLogin extends React.Component {
                 </fieldset>
                 <Row>
                     <Col>
-                        <Button className="mt-2" variant="primary" name="btnAutenticar" id="btnAutenticar" size="lg" block type="submit">Enviar</Button>
+                        <Button 
+                        className="mt-2" 
+                        variant="primary"
+                         name="btnAutenticar" id="btnAutenticar" 
+                         size="lg" 
+                         block 
+                         type="submit"
+                         tabIndex="3">Entrar</Button>
                     </Col>
                 </Row>
             </Form>
             </Container>
+            <Container>
+                <Row>
+                    <Col>
+                        <Nav.Link 
+                        as="a"
+                        className="mt-2 btn btn-lg btn-secondary " 
+                        name="cadastroDeUsuario" 
+                        id="cadastroDeUsuario" 
+                        href="/usuario/cadastrar">Cadastrar usuário</Nav.Link>
+                    </Col>
+                </Row>
+            </Container>
+
+            <Footer />
+            </div>
         );
     }
 }

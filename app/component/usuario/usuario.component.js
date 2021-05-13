@@ -1,9 +1,10 @@
 import React from 'react';
-import { Form, Button, Container, Row, Col, InputGroup } from 'react-bootstrap';
+import { Form, Button,  Container, Row, Col, InputGroup, Nav } from 'react-bootstrap';
 import UsuarioService from '../../service/usuario.service';
 import Usuario from '../../models/usuario.dto';
 import { AiOutlineMail } from 'react-icons/ai';
-import Router from 'next/router';
+import Header from '../header';
+import Footer from '../footer';
 
 export default class FormularioUsuario extends React.Component {
 
@@ -38,6 +39,7 @@ export default class FormularioUsuario extends React.Component {
     render() {
         return (
             <div>
+            <Header nomePagina="Cadastro de usuário" />
             <Container className="mt-4">
             <Form onSubmit={this.handlerSubmit}>
                 <fieldset className="fieldset">
@@ -93,7 +95,8 @@ export default class FormularioUsuario extends React.Component {
                         </Form.Label>
                     </Col>
                     <Col md="10">
-                        <Form.Control as="select" name="nivelDeAcesso" onChange={this.handlerChange()} value={this.status.nivelDeAcesso} id="nivelDeAcesso">
+                        <Form.Control 
+                        as="select" name="nivelDeAcesso" onChange={this.handlerChange} value={this.state.nivelDeAcesso} id="nivelDeAcesso">
                             <option value="">Escolha ....</option>
                             <option value="">Master</option>
                             <option value="">Financeiro</option>
@@ -115,17 +118,17 @@ export default class FormularioUsuario extends React.Component {
             <Container>
                 <Row>
                     <Col>
-                        <Button 
-                        type="button" 
-                        variant="secondary"
-                        size="lg" 
-                        onClick={this.voltar()}
-                        block>
+                        <Nav.Link 
+                        as="a"
+                        className="btn btn-lg btn-secondary " 
+                        href="/"
+                        >
                             Voltar
-                        </Button>
+                        </Nav.Link>
                     </Col>
                 </Row>
             </Container>
+            <Footer />
             </div>
         );
     }

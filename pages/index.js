@@ -10,24 +10,12 @@ export default function Home() {
         <meta name="description" content="Zupayments FrontEnd" />
       </Head>
           <Container>
-            <header>
-              <Row>
-                <Col>
-                  <h1 className="text-center">Zupayments</h1>
-                </Col>
-              </Row>
               <Row>
                 <Col>
                   <FormularioLogin />
                 </Col>
               </Row>
-            </header>
           </Container>
-
-      <footer >
-          <hr />
-          <p className="text-center bold">Zupayments - vresão 0.1.0 beta - 2021</p>
-      </footer>
     </div>
   )
 }
