@@ -4,6 +4,8 @@ import {AiOutlineMail} from 'react-icons/ai';
 import { MdDateRange, MdAttachMoney } from 'react-icons/md';
 import Header from '../header';
 import Footer from '../footer';
+import NotaFiscalService from '../../service/nota.service';
+import CadastrarNotaFiscalDTO from '../../models/nota.dto';
 
 export default class FormularioNotaFiscal extends React.Component {
     constructor(props) {
@@ -21,11 +23,13 @@ export default class FormularioNotaFiscal extends React.Component {
             showModalAcesso: false
         };
 
+        this.service = new NotaFiscalService();
         this.handlerChange = this.handlerChange.bind(this);
         this.handlerSubmit = this.handlerSubmit.bind(this);
         this.handleCloseModal = this.handleCloseModal.bind(this);
         this.handleCloseModalError = this.handleCloseModalError.bind(this);
         this.handlerCloseModalAcesso = this.handlerCloseModalAcesso.bind(this);
+
     }
 
     handlerChange(event) {
@@ -49,9 +53,10 @@ export default class FormularioNotaFiscal extends React.Component {
             emailDoResponsavel: '',
             showModalSucesso: false, 
             showModalError: false,
-            showModalAcesso: false
+            showModalAcesso: false,
+            mensagemDeErro: '',
+            idNota: ''
         });
-        
     }
 
     handleCloseModalError(event) {
@@ -63,6 +68,30 @@ export default class FormularioNotaFiscal extends React.Component {
     }
 
     handlerSubmit(event) {
+        event.preventDefault();
+        let notaFiscal = new CadastrarNotaFiscalDTO(
+            this.state.numeroDaNota,
+            this.state.cnpjOuCpfFornecedor,
+            this.state.valorAPagar,
+            this.state.dataDeEmissao,
+            this.state.pedidoDeCompras,
+            this.state.dataDeEmissao,
+            this.state.emailDoResponsavel
+        );
+
+        let resposta = this.service.cadastrarNovaNotaFiscal(notaFiscal);
+
+        resposta.then((response) => {
+            if (response.status == 201) {
+                this.setState({showModalSucesso: true, idNota: response.data.id});
+            }
+        }).catch((error) => {
+            if (error.response.status == 403) {
+                this.setState({showModalAcesso: true});
+            } else if (error.response.status == 400) {
+                this.setState({showModalError: true, mensagemDeErro: error.response.data.mensagem});
+            }
+        });
     }
 
     render() {
@@ -75,7 +104,7 @@ export default class FormularioNotaFiscal extends React.Component {
                     <Col md="10">
                         <InputGroup>
                             <Form.Control 
-                             type="date" 
+                             type="number" 
                              onChange={this.handlerChange} 
                              value={this.state.numeroDaNota} 
                              name="numeroDaNota" id="numeroDaNota" 
@@ -181,8 +210,13 @@ export default class FormularioNotaFiscal extends React.Component {
                     <Col md="2">E-mail do responsável:</Col>
                     <Col md="10">
                         <InputGroup>
+                            <InputGroup.Prepend>
+                                <InputGroup.Text>
+                                    <AiOutlineMail />
+                                </InputGroup.Text>
+                            </InputGroup.Prepend>
                             <Form.Control 
-                            type="text" 
+                            type="email" 
                             onChange={this.handlerChange} 
                             name="emailDoResponsavel" id="emailDoResponsavel" 
                             value={this.state.emailDoResponsavel}
@@ -225,7 +259,8 @@ export default class FormularioNotaFiscal extends React.Component {
                     <Modal.Title>Cadastro de nota fiscal</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        Cadastro realizado com sucesso!
+                        <p>Cadastro realizado com sucesso!</p>
+                        <p>O id da nota é:  {this.state.idNota} </p>
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={this.handleCloseModal}>
@@ -240,7 +275,8 @@ export default class FormularioNotaFiscal extends React.Component {
                     <Modal.Title>Cadastro de nota fiscal</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        Existem erros de dados, favor verificar!
+                        <p>Existem erros de dados, favor verificar!</p>
+                        <p>{this.state.mensagemDeErro}</p>
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={this.handleCloseModalError}>

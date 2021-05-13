@@ -21,7 +21,8 @@ export default class FormularioPedido extends React.Component {
             cnpjOuCpf: '', 
             showModalSucesso: false, 
             showModalError: false,
-            showModalAcesso: false
+            showModalAcesso: false,
+            numeroDePedido: ''
         };
         this.service = new PedidoDeCompraService();
         this.handlerChange = this.handlerChange.bind(this);
@@ -55,7 +56,7 @@ export default class FormularioPedido extends React.Component {
         const resposta = this.service.cadastrar(pedidoDeCompra);
         resposta.then((response) => {
             if (response.status == 201) {
-                this.setState({showModalSucesso: true});
+                this.setState({showModalSucesso: true, numeroDePedido: response.data.numeroDePedido});
             }            
         }).catch((error) => {
             if (error.response.status == 400) {
@@ -273,7 +274,8 @@ export default class FormularioPedido extends React.Component {
                     <Modal.Title>Cadastro de pedido de compra</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        Cadastro realizado com sucesso!
+                        <p>Cadastro realizado com sucesso!</p>
+                        <p>O número do pedido: {this.state.numeroDePedido}</p>
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={this.handleCloseModal}>
