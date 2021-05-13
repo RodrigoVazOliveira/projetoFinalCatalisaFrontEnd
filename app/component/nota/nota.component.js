@@ -62,6 +62,9 @@ export default class FormularioNotaFiscal extends React.Component {
         this.setState({showModalAcesso: false});
     }
 
+    handlerSubmit(event) {
+    }
+
     render() {
         return (
             <Container>
@@ -175,7 +178,7 @@ export default class FormularioNotaFiscal extends React.Component {
                     </Col>
                 </Row>
                 <Row>
-                    <Col md="2">Pedido de compra:</Col>
+                    <Col md="2">E-mail do responsável:</Col>
                     <Col md="10">
                         <InputGroup>
                             <Form.Control 
