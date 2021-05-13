@@ -233,6 +233,22 @@ render(){
                         </Nav.Link>
                     </Col>
                 </Row>
+                <div>
+                <Modal id="modalSucesso" name="modalScuesso" show={this.state.showModalSucesso}>
+                    <Modal.Header closeButton>
+                    <Modal.Title>Cadastro de Fornecedor</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <p>Cadastro realizado com sucesso!</p>
+                        <p>Razão Social do fornecedor: {this.state.razaoSocial}</p>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={this.handleCloseModal}>
+                            Fechar
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+            </div>
                
         </Container>
                                             );
