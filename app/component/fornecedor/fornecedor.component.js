@@ -42,7 +42,7 @@ render(){
                                                 <AiOutlineMail />
                                                 </InputGroup.Text>
                                                 </InputGroup.Prepend>
-                                                <Form.Control type="Razao Social" onChange={this.handlerChange} value={this.state.razaoSocial} name="Razao Social" id="Razao Social" placeholder="Informe a Razao Social..." required />
+                                                <Form.Control type="razaoSocial" onChange={this.handlerChange} value={this.state.razaoSocial} name="razaoSocial" id="razaoSocial" placeholder="Informe a Razão Social..." required />
                                                 </InputGroup>
                                         </Col>
                  </Row>
