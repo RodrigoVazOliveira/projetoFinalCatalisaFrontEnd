@@ -176,28 +176,34 @@ render(){
                                                 <Form.Control type="estado" onChange={this.handlerChange} value={this.state.estadop} name="estado" id="estado" placeholder="Informe qual o estado..." required />
                                                 </InputGroup>
                                         </Col>
-                                        <Row>
-                                   <Col md="2">categoriaDeCusto</Col>
-                                   <Col md="10">
-                                                <InputGroup>
-                                                <InputGroup.Prepend>
-                                                <InputGroup.Text>
-                                                <AiOutlineMail />
-                                                </InputGroup.Text>
-                                                </InputGroup.Prepend>
-                                                <Form.Control type="categoriaDeCusto" onChange={this.handlerChange} value={this.state.categoriaDeCusto} name="categoriaDeCusto" id="categoriaDeCusto" placeholder="Selecione a categoria de custo..." required />
-                                                </InputGroup>
-                                   </Col>
-                            </Row>
-                 </Row>
-                 </fieldset>
-                                                    <Row>
-                                                        <Col>
-                                                            <Button className="mt-2" variant="primary" name="btnAutenticar" id="btnAutenticar" size="lg" block type="submit">Enviar</Button>
-                                                        </Col>
-                                                    </Row>
-                                                </Form>
-                                                </Container>
+                                        </Row>
+                <Row>
+                    <Col md="2">
+                        <Form.Label>
+                            Categoria de Custo:
+                        </Form.Label>
+                    </Col>
+                    <Col md="10">
+                        <Form.Control 
+                        as="select" tabIndex="7" name="categotiaDeCusto" onChange={this.handlerChange} value={this.state.categoriaDeCusto} id="categotiaDeCusto">
+                            <option value="">Escolha ....</option>
+                            <option value="FACILITES">FACILITES</option>
+                            <option value="BENEFICIOS">BENEFICIOS</option>
+                            <option value="TECNOLOGIA">TECNOLOGIA</option>
+                            <option value="OUTROS_FORNECEDORES">OUTROS FORNECEDORES</option>
+                        </Form.Control>
+                    </Col>
+
+                </Row>
+                 
+                 <Row>
+                         <Col>
+                            <Button className="mt-2" variant="primary" name="btnAutenticar" id="btnAutenticar" size="lg" block type="submit">Enviar</Button>
+                        </Col>
+                </Row>
+                </fieldset>
+             </Form>
+        </Container>
                                             );
                                         }
                                     }
