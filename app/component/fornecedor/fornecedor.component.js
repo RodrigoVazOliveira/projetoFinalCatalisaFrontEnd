@@ -3,6 +3,7 @@ import { Form, Button, Container, Row, Col, Nav, Modal } from 'react-bootstrap';
 import Header from '../header';
 import Footer from '../footer';
 import FornecedorService from '../../service/fornecedor.service';
+import Fornecedor from '../../models/fornecedor.dto';
 
 export default class FormCadastroFornecedor extends React.Component {
     constructor(props) {
@@ -32,6 +33,23 @@ export default class FormCadastroFornecedor extends React.Component {
 
     handleSubmit(event) {
         event.preventDefault();
+        let fornecedorDto = new Fornecedor(
+            this.state.cpf,
+            this.state.cnpj,
+            this.state.razaoSocial,
+            this.state.logradouro,
+            this.state.numero,
+            this.state.bairro,
+            this.state.cidade,
+            this.state.estado,
+            this.state.cep,
+            this.state.telefone,
+            this.state.email,
+            this.state.categoriaDeCusto
+        );
+        
+        const resposta = this.service.cadastrarNovoFornecedor(fornecedorDto);
+
     }
 
     handleChange(event) {
