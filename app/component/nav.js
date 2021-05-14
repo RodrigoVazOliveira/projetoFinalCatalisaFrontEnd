@@ -6,25 +6,30 @@ export default function Menu() {
             <header className="mt-4" >
                     <Nav variant="pills" className="flex-column justify-content-end">
                         <Nav.Item>
-                            <Nav.Link href="/responsavel/cadastrar" accesskey="r"> <kbd>ALT + r</kbd> Cadastrar Responsáveis</Nav.Link>
+                            <Nav.Link href="/responsavel/cadastrar" accesskey="r">Cadastrar Responsáveis</Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
-                            <Nav.Link href="/fornecedor/cadastrar" accesskey="s"><kbd>ALT + s</kbd> Cadastrar fornecedor</Nav.Link>
+                            <Nav.Link href="/fornecedor/cadastrar" accesskey="s">Cadastrar fornecedor</Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
-                            <Nav.Link href="/pedido/cadastrar" accesskey="p"><kbd>ALT + p</kbd> Cadastrar pedido de compra</Nav.Link>
+                            <Nav.Link href="/pedido/cadastrar" accesskey="p">Cadastrar pedido de compra</Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
-                            <Nav.Link href="/pedido/visualizar" accesskey="j"><kbd>ALT + j</kbd> Visualizar pedido de compra</Nav.Link>
+                            <Nav.Link href="/pedido/visualizar" accesskey="j">Visualizar pedido de compra</Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
                             <Nav.Link href="/nota/cadastrar" accesskey="o">
-                           <kbd>ALT + o</kbd> Cadastrar Nota Fiscal
+                             Cadastrar Nota Fiscal
                             </Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
                             <Nav.Link href="/usuario/cadastrar" accesskey="c">
-                           <kbd>ALT + c</kbd> CCadastrar Usuário
+                                Cadastrar Usuário
+                            </Nav.Link>
+                        </Nav.Item>
+                        <Nav.Item>
+                            <Nav.Link href="/sair" accesskey="c">
+                                Sair
                             </Nav.Link>
                         </Nav.Item>
                     </Nav>

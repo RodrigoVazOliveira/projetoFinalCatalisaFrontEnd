@@ -9,5 +9,35 @@ export default class PedidoDeCompraService{
                 'Authorization': token
             }
         });
-    };
+    }
+
+    pedidosPendenteDeEnvio(dataInicial) {
+        let dataFormatada = this.formatarData(dataInicial);
+        let token = localStorage.getItem('JWT_TOKEN');
+        return axios.get(`http://localhost:8080/pedidos/pendentes?dataInicial=${dataFormatada}`, {
+            headers: {
+                'Authorization' : token
+            }
+        });
+    }
+
+    enviarEmailParaResponsaveis(dataInicial) {
+        let dataFormatada = this.formatarData(dataInicial);
+        let token = localStorage.getItem('JWT_TOKEN');
+        return axios.get(`http://localhost:8080/pedidos/cobrancas?dataInicial=${dataFormatada}`, {
+            headers: {
+                'Authorization' : token
+            }
+        });
+    }
+
+    formatarData(data) {
+        let ano = data.split('-')[0];
+        let mes = data.split('-')[1];
+        let dia = data.split('-')[2];
+
+        let dataBr = `${dia}/${mes}/${ano}`;
+
+        return dataBr;
+    }
 }
