@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from '../header';
 import Footer from '../footer';
-import {Container, Form, Row, Col, InputGroup, Button, Modal } from 'react-bootstrap';
+import {Container, Form, Row, Col, InputGroup, Button, Modal, Nav } from 'react-bootstrap';
 import { AiOutlineMail } from 'react-icons/ai';
 import  ResponsavelDTO  from '../../models/responsavel.dto';
 import  ResponsavelService  from '../../service/responsavel.service';
@@ -38,7 +38,7 @@ export default class FormularioResponsavel extends React.Component {
         resposta.then((response) => {
             if (response.status == 201) {
                 // responsável cadastro com sucesso
-                this.setState({showModalSucesso: true});
+                this.setState({showModalSucesso: true, nomeCompleto: '', email: '', nomeDoProjeto: ''});
             }
         }).catch((error) => {
             if (error.response.status == 403) {
@@ -125,6 +125,17 @@ export default class FormularioResponsavel extends React.Component {
                         <Button className="mt-2" variant="primary" name="btnCadastrarResponsavel" id="btnCadastrarResponsavel" size="lg" block type="submit">
                             Gravar
                         </Button>
+                    </Col>
+                </Row>
+                <Row className="mt-2">
+                    <Col>
+                        <Nav.Link 
+                        as="a"
+                        className="btn btn-lg btn-secondary " 
+                        href="/home/home"
+                        >
+                            Voltar ao menu
+                        </Nav.Link>
                     </Col>
                 </Row>
             </Form>
