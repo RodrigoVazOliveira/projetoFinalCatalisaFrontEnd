@@ -10,10 +10,10 @@ export default function Input(props) {
                 <Form.Control 
                 type={props.tipo}
                 onChange={props.handler}
-                value={props.value}
+                value={props.valor}
                 name={props.nomeInput}
                 id={props.idInput}
-                required
+                required={props.required}
                 size="lg"
                 tabIndex={props.index} />
             </Col>

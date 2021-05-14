@@ -9,7 +9,7 @@ export default function Menu() {
                             <Nav.Link href="/responsavel/cadastrar" accesskey="r"> <kbd>ALT + r</kbd> Cadastrar Responsáveis</Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
-                            <Nav.Link href="/fornecedores/fornecedor" accesskey="s"><kbd>ALT + s</kbd> Fornecedores</Nav.Link>
+                            <Nav.Link href="/fornecedor/cadastrar" accesskey="s"><kbd>ALT + s</kbd> Cadastrar fornecedor</Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
                             <Nav.Link href="/pedido/cadastrar" accesskey="p"><kbd>ALT + p</kbd> Cadastrar pedido de compra</Nav.Link>
