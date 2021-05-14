@@ -1,8 +1,9 @@
 import React from "react";
-import { Form, Button, Container, Row, Col, InputGroup, Nav, Modal } from 'react-bootstrap';
-import Input from '../helper/input';
+import { Form, Button, Container, Row, Col, Nav, Modal } from 'react-bootstrap';
 import Header from '../header';
 import Footer from '../footer';
+import FornecedorService from '../../service/fornecedor.service';
+
 export default class FormCadastroFornecedor extends React.Component {
     constructor(props) {
         super(props);
@@ -19,12 +20,14 @@ export default class FormCadastroFornecedor extends React.Component {
             telefone: '',
             email: '',
             categoriaDeCusto: '',
-            tipoDoc: true
+            showModalSucesso: false,
+            showModalError: false
         };
 
+        this.service = new FornecedorService();
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
-        
+        this.buscarEnderecoCompleto = this.buscarEnderecoCompleto.bind(this);
     }
 
     handleSubmit(event) {
@@ -41,6 +44,23 @@ export default class FormCadastroFornecedor extends React.Component {
         });
     }
 
+    buscarEnderecoCompleto() {
+        const endereco = this.service.buscarEndereco(this.state.cep);
+        endereco.then((response) => {
+            const dados = response.data;
+            if (dados.hasOwnProperty('erro')) {
+                alert(`CEP ${this.state.cep} não localizado!`);
+            }
+            this.setState({
+                logradouro: dados.logradouro,
+                bairro: dados.bairro,
+                cidade: dados.localidade,
+                estado: dados.uf,
+            });
+        }).catch((error) => {
+            alert(`CEP ${this.state.cep} não localizado`);
+        });
+    }
 
     render() {
         return (
@@ -48,10 +68,10 @@ export default class FormCadastroFornecedor extends React.Component {
                 <Header nomePagina="Cadastro de fornecedor" />
                 <Form className="mt-3" onSubmit={this.handleSubmit}>              
                     <Row>
-                        <Col md="1">
+                        <Col md="2">
                             <Form.Label>CNPJ:</Form.Label>
                         </Col>
-                        <Col md="5">
+                        <Col md="4">
                             <Form.Control 
                             type="text"
                             onChange={this.handleChange}
@@ -61,10 +81,10 @@ export default class FormCadastroFornecedor extends React.Component {
                             size="lg"
                             tabIndex="1" />
                         </Col>
-                        <Col md="1">
+                        <Col md="2">
                             <Form.Label>CPF:</Form.Label>
                         </Col>
-                        <Col md="5">
+                        <Col md="4">
                             <Form.Control 
                             type="text"
                             onChange={this.handleChange}
@@ -76,10 +96,10 @@ export default class FormCadastroFornecedor extends React.Component {
                         </Col>
                     </Row>
                     <Row>
-                        <Col md="1">
+                        <Col md="2">
                             <Form.Label>Razão Social:</Form.Label>
                         </Col>
-                        <Col md="11">
+                        <Col md="10">
                             <Form.Control 
                             type="text"
                             onChange={this.handleChange}
@@ -92,23 +112,24 @@ export default class FormCadastroFornecedor extends React.Component {
                         </Col>
                     </Row>
                     <Row>
-                        <Col md="1">
+                        <Col md="2">
                             <Form.Label>CEP:</Form.Label>
                         </Col>
-                        <Col md="5">
+                        <Col md="4">
                             <Form.Control 
                             type="number"
                             onChange={this.handleChange}
+                            onBlur={this.buscarEnderecoCompleto}
                             value={this.state.cep}
                             name="cep"
                             id="cep"
                             size="lg"
                             tabIndex="4" required />
                         </Col>
-                        <Col md="1">
+                        <Col md="2">
                             <Form.Label>Logradouro:</Form.Label>
                         </Col>
-                        <Col md="5">
+                        <Col md="4">
                             <Form.Control 
                             type="text"
                             onChange={this.handleChange}
@@ -120,10 +141,10 @@ export default class FormCadastroFornecedor extends React.Component {
                         </Col>
                     </Row>
                     <Row>
-                        <Col md="1">
+                        <Col md="2">
                             <Form.Label>Bairro:</Form.Label>
                         </Col>
-                        <Col md="5">
+                        <Col md="4">
                             <Form.Control 
                             type="text"
                             onChange={this.handleChange}
@@ -133,10 +154,10 @@ export default class FormCadastroFornecedor extends React.Component {
                             size="lg"
                             tabIndex="6" required />
                         </Col>
-                        <Col md="1">
+                        <Col md="2">
                             <Form.Label>Número:</Form.Label>
                         </Col>
-                        <Col md="5">
+                        <Col md="4">
                             <Form.Control 
                             type="number"
                             onChange={this.handleChange}
@@ -148,10 +169,10 @@ export default class FormCadastroFornecedor extends React.Component {
                         </Col>
                     </Row>
                     <Row>
-                        <Col md="1">
+                        <Col md="2">
                             <Form.Label>Cidade:</Form.Label>
                         </Col>
-                        <Col md="5">
+                        <Col md="4">
                             <Form.Control 
                             type="text"
                             onChange={this.handleChange}
@@ -161,10 +182,10 @@ export default class FormCadastroFornecedor extends React.Component {
                             size="lg"
                             tabIndex="8" required />
                         </Col>
-                        <Col md="1">
+                        <Col md="2">
                             <Form.Label>Estado:</Form.Label>
                         </Col>
-                        <Col md="5">
+                        <Col md="4">
                             <Form.Control 
                             type="text"
                             onChange={this.handleChange}
@@ -177,10 +198,10 @@ export default class FormCadastroFornecedor extends React.Component {
                     </Row>
 
                     <Row>
-                        <Col md="1">
+                        <Col md="2">
                             <Form.Label>Telefone:</Form.Label>
                         </Col>
-                        <Col md="5">
+                        <Col md="4">
                             <Form.Control 
                             type="text"
                             onChange={this.handleChange}
@@ -190,10 +211,10 @@ export default class FormCadastroFornecedor extends React.Component {
                             size="lg"
                             tabIndex="10" required />
                         </Col>
-                        <Col md="1">
+                        <Col md="2">
                             <Form.Label>E-mail:</Form.Label>
                         </Col>
-                        <Col md="5">
+                        <Col md="4">
                             <Form.Control 
                             type="email"
                             onChange={this.handleChange}
@@ -205,12 +226,12 @@ export default class FormCadastroFornecedor extends React.Component {
                         </Col>
                     </Row>
                     <Row>
-                    <Col md="1">
+                    <Col md="2">
                         <Form.Label>
                             Categoria de custo:
                         </Form.Label>
                     </Col>
-                    <Col md="11">
+                    <Col md="10">
                         <Form.Control 
                         as="select" 
                         name="categoriaDeCusto" 
@@ -239,7 +260,48 @@ export default class FormCadastroFornecedor extends React.Component {
                     </Col>
                 </Row>
                 </Form>
+                <Row className="mt-3">
+                    <Col>
+                        <Nav.Link 
+                        as="a"
+                        className="btn btn-lg btn-secondary " 
+                        href="/home/home"
+                        >
+                            Voltar ao menu
+                        </Nav.Link>
+                    </Col>
+                </Row>
                 <Footer />
+                <div>
+                <Modal id="modalSucesso" name="modalScuesso" show={this.state.showModalSucesso}>
+                    <Modal.Header closeButton>
+                    <Modal.Title>Cadastro de Usuário</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        Cadastro realizado com sucesso!
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={this.handleCloseModal}>
+                            Fechar
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+            </div>
+                <div>
+                    <Modal id="modalError" name="modalError" show={this.state.showModalError}>
+                        <Modal.Header closeButton>
+                        <Modal.Title>Cadastro de Usuário</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            Existem erros de dados, favor verificar!
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button variant="secondary" onClick={this.handleCloseModalError}>
+                                Fechar
+                            </Button>
+                        </Modal.Footer>
+                    </Modal>
+                </div>
             </Container>
         );
     }
