@@ -8,7 +8,7 @@ export default class Home extends React.Component {
     render() {
         return (
             <Container>
-                <Header nomePagina="Página Ínicial" />
+                <Header nomePagina="Página Inicial" />
                 <Menu />
                 <Footer />
             </Container>
