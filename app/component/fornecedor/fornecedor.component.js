@@ -2,16 +2,33 @@ import React from 'react';
 import { Form, Button, Container, Row, Col, InputGroup, Nav, Modal } from 'react-bootstrap';
 import {AiOutlineMail} from 'react-icons/ai';
 import { MdDateRange, MdAttachMoney } from 'react-icons/md';
+import Fornecedor from '../../models/fornecedor.dto';
 import FornecedorService from '../../service/fornecedor.service';
 import Footer from '../footer';
 
 class FormularioFornecedor extends React.Component{
     constructor(props) {
         super(props);
-        this.state ={cpf:'',cnpj:'',razaoSocial:'',logradouro:'',numero:'',bairro:'',cidade:'',estado:'',cep:'',telefone:'',email:'',categoriaDeCusto:''};
+        this.state ={
+            cpf:'',
+            cnpj:'',
+            razaoSocial:'',
+            logradouro:'',
+            numero:'',
+            bairro:'',
+            cidade:'',
+            estado:'',
+            cep:'',
+            telefone:'',
+            email:'',
+            categoriaDeCusto:''
+        };
         this.service = new FornecedorService();
-                                    this.handlerChange = this.handlerChange.bind(this);
-                                    this.handlerSubmit = this.handlerSubmit.bind(this);
+                this.handlerChange = this.handlerChange.bind(this);
+                this.handlerSubmit = this.handlerSubmit.bind(this);
+                this.handleCloseModal = this.handleCloseModal.bind(this);
+                this.handleCloseModalError = this.handleCloseModalError.bind(this);
+                this.handlerCloseModalAcesso = this.handlerCloseModalAcesso.bind(this);
 }
 handlerChange(event) {
     const target = event.target;
@@ -23,10 +40,65 @@ handlerChange(event) {
     });
 }
 handlerSubmit(event) {
-    this.service.autenticar(this.state.cpf + '' + this.state.cnpj+ '' + this.state.razaoSocial + this.state.logradouro + '' + this.state.numero + '' + this.state.bairro + ''+
-        this.state.cidade+''+this.state.estado+''+this.state.cep+''+this.state.telefone+''+ this.state.email +''+this.state.categoriaDeCusto);
+    const fornecedor = new Fornecedor(
+     this.state.cpf,
+     this.state.cnpj,
+     this.state.razaoSocial,
+     this.state.logradouro ,
+     this.state.numero ,
+     this.state.bairro ,
+     this.state.cidade,
+     this.state.estado,
+     this.state.cep,
+     this.state.telefone,
+     this.state.email,
+     this.state.categoriaDeCusto
+     );
+    
+
+    const resposta = this.service.cadastrar(fornecedor);
+        resposta.then((response) => {
+            if (response.status == 201) {
+                this.setState({showModalSucesso: true, razaoSocial: response.data.razaoSocial});
+            }            
+        }).catch((error) => {
+            if (error.response.status == 400) {
+                this.setState({showModalError: true});
+            } else if (error.response.status == 403) {
+                this.setState({showModalAcesso: true});
+            }
+        });
         event.preventDefault();
-}
+    }
+    handleCloseModal(event) {
+        this.setState({
+            cpf:'',
+            cnpj:'',
+            razaoSocial:'',
+            logradouro:'',
+            numero:'',
+            bairro:'',
+            cidade:'',
+            estado:'',
+            cep:'',
+            telefone:'',
+            email:'',
+            categoriaDeCusto:'',
+            showModalSucesso: false, 
+            showModalError: false,
+            showModalAcesso: false
+        });
+        
+    }
+
+    handleCloseModalError(event) {
+        this.setState({showModalError: false});
+    }
+
+    handlerCloseModalAcesso() {
+        this.setState({showModalAcesso: false});
+    }
+
 render(){
     return (
         <Container className="mt-4">
