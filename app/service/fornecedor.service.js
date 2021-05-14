@@ -1,24 +1,20 @@
 import axios from "axios";
 import Fornecedor from '../models/fornecedor.dto'
 
-export default class FornecedorService{
+export default class FornecedorService {
 
-    autenticar(cpf,cnpj,razaoSocial,logradouro,numero,bairro,cidade,estado,cep,telefone,email,categoriaDeCusto){
-        let fornecedorDTO = new Fornecedor(cpf,cnpj,razaoSocial,logradouro,numero,bairro,cidade,estado,cep,telefone,email,categoriaDeCusto)
-        axios.post('http://localhost:8080/fornecedor', JSON.stringify(fornecedorDTO), {
-            headers: {
-                'Content-Type':'application/json',
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Methods': 'POST, PUT, DELETE, OPTIONS, GET'
-            }
-        }).then(
-            res => {
-                console.log(res.headers);
-            }
-        ).catch(function(error) {
-            console.log(error);
-        });
+    buscarEndereco(cep) {
+        return axios.get(`https://viacep.com.br/ws/${cep}/json`);
     }
 
+    cadastrarNovoFornecedor(fornecedorDto) {
+        let token = localStorage.getItem('JWT_TOKEN');        
+        return axios.post('http://localhost:8080/fornecedores/', JSON.stringify(fornecedorDto), {
+            headers: {
+                'Authorization': token,
+                'Content-Type': 'application/json'
+            }
+        });
+    }
 };
     

@@ -98,8 +98,8 @@ export default class FormularioPedido extends React.Component {
                 <Header nomePagina="Cadastro de pedido de compra" />
                 <Form onSubmit={this.handlerSubmit} className="mt-4">
                 <Row>
-                    <Col md="2">Data de vencimento:</Col>
-                    <Col md="10">
+                    <Col md="4">Data de vencimento:</Col>
+                    <Col md="8">
                         <InputGroup>
                             <InputGroup.Prepend>
                                 <InputGroup.Text>
@@ -108,6 +108,7 @@ export default class FormularioPedido extends React.Component {
                             </InputGroup.Prepend>
                             <Form.Control 
                              type="date" 
+                             className="datePicker"
                              onChange={this.handlerChange} 
                              value={this.state.dataDeVencimento} 
                              name="dataDeVencimento" id="dataDeVencimento" 
@@ -118,8 +119,8 @@ export default class FormularioPedido extends React.Component {
                     </Col>
                 </Row>
                 <Row>
-                    <Col md="2">Data de pagamento:</Col>
-                    <Col md="10">
+                    <Col md="4">Data de pagamento:</Col>
+                    <Col md="8">
                         <InputGroup>
                             <InputGroup.Prepend>
                                 <InputGroup.Text>
@@ -139,8 +140,8 @@ export default class FormularioPedido extends React.Component {
                 </Row>
                 
                 <Row>
-                    <Col md="2">Saldo:</Col>
-                    <Col md="10">
+                    <Col md="4">Saldo:</Col>
+                    <Col md="8">
 
                         <InputGroup>
                         <InputGroup.Prepend>
@@ -160,8 +161,8 @@ export default class FormularioPedido extends React.Component {
                     </Col>
                 </Row>
                 <Row>
-                    <Col md="2">E-mail do responsável:</Col>
-                    <Col md="10">
+                    <Col md="4">E-mail do responsável:</Col>
+                    <Col md="8">
                         <InputGroup>
                             <InputGroup.Prepend>
                                 <InputGroup.Text>
@@ -180,8 +181,8 @@ export default class FormularioPedido extends React.Component {
                     </Col>
                 </Row>
                 <Row>
-                    <Col md="2">Data limite de envio:</Col>
-                    <Col md="10">
+                    <Col md="4">Data limite de envio:</Col>
+                    <Col md="8">
                         <InputGroup>
                             <InputGroup.Prepend>
                                 <InputGroup.Text>
@@ -200,8 +201,8 @@ export default class FormularioPedido extends React.Component {
                     </Col>
                 </Row>
                 <Row>
-                    <Col md="2">CNPJ/CPF:</Col>
-                    <Col md="10">
+                    <Col md="4">CNPJ/CPF:</Col>
+                    <Col md="8">
                         <InputGroup>
                             <Form.Control 
                             type="text" 
@@ -215,12 +216,12 @@ export default class FormularioPedido extends React.Component {
                     </Col>
                 </Row>
                 <Row>
-                    <Col md="2">
+                    <Col md="4">
                         <Form.Label>
                             Forma de pagamento:
                         </Form.Label>
                     </Col>
-                    <Col md="10">
+                    <Col md="8">
                         <Form.Control 
                         as="select" tabIndex="7" name="formaDePagamento" onChange={this.handlerChange} value={this.state.formaDePagamento} id="formaDePagamento">
                             <option value="">Escolha ....</option>
@@ -245,18 +246,18 @@ export default class FormularioPedido extends React.Component {
                 </Row>
             </Form>
 
-                <Row>
+                <Row className="mt-3">
                     <Col>
                         <Nav.Link 
                         as="a"
                         className="btn btn-lg btn-secondary " 
                         href="/home/home"
                         >
-                            Voltar
+                            Voltar ao menu
                         </Nav.Link>
                     </Col>
                 </Row>
-                <Row>
+                <Row className="mt-3">
                     <Col>
                         <Nav.Link 
                         as="a"

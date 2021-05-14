@@ -100,8 +100,8 @@ export default class FormularioNotaFiscal extends React.Component {
                 <Header nomePagina="Cadastro de nota fiscal" />
                 <Form onSubmit={this.handlerSubmit} className="mt-4">
                 <Row>
-                    <Col md="2">Número de nota:</Col>
-                    <Col md="10">
+                    <Col md="4">Número de nota:</Col>
+                    <Col md="8">
                         <InputGroup>
                             <Form.Control 
                              type="number" 
@@ -115,8 +115,8 @@ export default class FormularioNotaFiscal extends React.Component {
                     </Col>
                 </Row>
                 <Row>
-                    <Col md="2">CNPJ/CPF fornecedor:</Col>
-                    <Col md="10">
+                    <Col md="4">CNPJ/CPF fornecedor:</Col>
+                    <Col md="8">
                         <InputGroup>
                             <Form.Control 
                              type="text" 
@@ -131,8 +131,8 @@ export default class FormularioNotaFiscal extends React.Component {
                 </Row>
                 
                 <Row>
-                    <Col md="2">Valor a pagar:</Col>
-                    <Col md="10">
+                    <Col md="4">Valor a pagar:</Col>
+                    <Col md="8">
 
                         <InputGroup>
                         <InputGroup.Prepend>
@@ -152,8 +152,8 @@ export default class FormularioNotaFiscal extends React.Component {
                     </Col>
                 </Row>
                 <Row>
-                    <Col md="2">Data de emissão:</Col>
-                    <Col md="10">
+                    <Col md="4">Data de emissão:</Col>
+                    <Col md="8">
                         <InputGroup>
                             <InputGroup.Prepend>
                                 <InputGroup.Text>
@@ -172,8 +172,8 @@ export default class FormularioNotaFiscal extends React.Component {
                     </Col>
                 </Row>
                 <Row>
-                    <Col md="2">Data de envio:</Col>
-                    <Col md="10">
+                    <Col md="4">Data de envio:</Col>
+                    <Col md="8">
                         <InputGroup>
                             <InputGroup.Prepend>
                                 <InputGroup.Text>
@@ -192,8 +192,8 @@ export default class FormularioNotaFiscal extends React.Component {
                     </Col>
                 </Row>
                 <Row>
-                    <Col md="2">Pedido de compra:</Col>
-                    <Col md="10">
+                    <Col md="4">Pedido de compra:</Col>
+                    <Col md="8">
                         <InputGroup>
                             <Form.Control 
                             type="text" 
@@ -207,8 +207,8 @@ export default class FormularioNotaFiscal extends React.Component {
                     </Col>
                 </Row>
                 <Row>
-                    <Col md="2">E-mail do responsável:</Col>
-                    <Col md="10">
+                    <Col md="4">E-mail do responsável:</Col>
+                    <Col md="8">
                         <InputGroup>
                             <InputGroup.Prepend>
                                 <InputGroup.Text>
@@ -241,14 +241,14 @@ export default class FormularioNotaFiscal extends React.Component {
                 </Row>
             </Form>
 
-                <Row>
+                <Row className="mt-3">
                     <Col>
                         <Nav.Link 
                         as="a"
                         className="btn btn-lg btn-secondary " 
                         href="/home/home"
                         >
-                            Voltar
+                            Voltar ao menu
                         </Nav.Link>
                     </Col>
                 </Row>
@@ -291,7 +291,7 @@ export default class FormularioNotaFiscal extends React.Component {
                     <Modal.Title>Cadastro de nota fiscal</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        Usuário não tem permissão para cadastrar um pedido de compra.
+                        <p>Usuário não tem permissão para cadastrar nota fiscal.</p>
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={this.handleCloseModalAcesso}>
