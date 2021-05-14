@@ -291,7 +291,7 @@ export default class FormularioNotaFiscal extends React.Component {
                     <Modal.Title>Cadastro de nota fiscal</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        Usuário não tem permissão para cadastrar um pedido de compra.
+                        <p>Usuário não tem permissão para cadastrar nota fiscal.</p>
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={this.handleCloseModalAcesso}>

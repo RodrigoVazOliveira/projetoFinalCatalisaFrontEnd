@@ -6,6 +6,7 @@ import FornecedorService from '../../service/fornecedor.service';
 import Fornecedor from '../../models/fornecedor.dto';
 
 export default class FormCadastroFornecedor extends React.Component {
+
     constructor(props) {
         super(props);
         this.state = {
@@ -22,13 +23,18 @@ export default class FormCadastroFornecedor extends React.Component {
             email: '',
             categoriaDeCusto: '',
             showModalSucesso: false,
-            showModalError: false
+            showModalError: false,
+            showModalAcesso: false,
+            mensagemErro: ''
         };
 
         this.service = new FornecedorService();
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.buscarEnderecoCompleto = this.buscarEnderecoCompleto.bind(this);
+        this.handleCloseModal = this.handleCloseModal.bind(this);
+        this.handleCloseModalError = this.handleCloseModalError.bind(this);
+        this.handleCloseModalAcesso = this.handleCloseModalAcesso.bind(this);
     }
 
     handleSubmit(event) {
@@ -49,6 +55,35 @@ export default class FormCadastroFornecedor extends React.Component {
         );
         
         const resposta = this.service.cadastrarNovoFornecedor(fornecedorDto);
+
+        resposta.then((response) => {
+            this.setState({
+                showModalSucesso: true,
+                cpf: '',
+                cnpj: '',
+                razaoSocial: '',
+                logradouro: '',
+                numero: '',
+                bairro: '',
+                cidade: '',
+                estado: '',
+                cep: '',
+                telefone: '',
+                email: '',
+                categoriaDeCusto: '',
+            });
+        }).catch((error) => {
+            if (error.response.status == 400) {
+                this.setState({
+                    showModalError: true
+                });
+            } else if (error.response.status == 403) {
+                this.setState({
+                    showModalAcesso: true,
+                    mensagemErro: error.response.data.mensagem
+                });
+            }
+        })
 
     }
 
@@ -78,6 +113,19 @@ export default class FormCadastroFornecedor extends React.Component {
         }).catch((error) => {
             alert(`CEP ${this.state.cep} não localizado`);
         });
+    }
+
+
+    handleCloseModal() {
+        this.setState({showModalSucesso: false});
+    }
+
+    handleCloseModalError() {
+        this.setState({showModalError: false});
+    }
+
+    handleCloseModalAcesso() {
+        this.setState({showModalAcesso: false});
     }
 
     render() {
@@ -256,7 +304,7 @@ export default class FormCadastroFornecedor extends React.Component {
                         onChange={this.handleChange} 
                         value={this.state.categoriaDeCusto} 
                         id="categoriaDeCusto"
-                        className="custom-select" required>
+                        className="custom-select" value={this.state.categoriaDeCusto} required>
                             <option value="FACILITIES">FACILITIES</option>
                             <option value="BENEFICIOS">BENEFICIOS</option>
                             <option value="TECNOLOGIA">TECNOLOGIA</option>
@@ -293,7 +341,7 @@ export default class FormCadastroFornecedor extends React.Component {
                 <div>
                 <Modal id="modalSucesso" name="modalScuesso" show={this.state.showModalSucesso}>
                     <Modal.Header closeButton>
-                    <Modal.Title>Cadastro de Usuário</Modal.Title>
+                    <Modal.Title>Cadastro de fornecedor</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         Cadastro realizado com sucesso!
@@ -308,10 +356,11 @@ export default class FormCadastroFornecedor extends React.Component {
                 <div>
                     <Modal id="modalError" name="modalError" show={this.state.showModalError}>
                         <Modal.Header closeButton>
-                        <Modal.Title>Cadastro de Usuário</Modal.Title>
+                        <Modal.Title>Cadastro de fornecedor</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
-                            Existem erros de dados, favor verificar!
+                            <p>Existem erros de dados, favor verificar!</p>
+                            <p>{this.state.mensagemErro}</p>
                         </Modal.Body>
                         <Modal.Footer>
                             <Button variant="secondary" onClick={this.handleCloseModalError}>
@@ -320,6 +369,21 @@ export default class FormCadastroFornecedor extends React.Component {
                         </Modal.Footer>
                     </Modal>
                 </div>
+                <div>
+                <Modal id="modalAccessoNegado" name="modalAccessoNegado" show={this.state.showModalAcesso}>
+                    <Modal.Header closeButton>
+                    <Modal.Title>Cadastro de fornecedor</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <p>Usuário não tem permissão para cadastrar de fornecedor.</p>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={this.handleCloseModalAcesso}>
+                            Fechar
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+            </div> 
             </Container>
         );
     }
